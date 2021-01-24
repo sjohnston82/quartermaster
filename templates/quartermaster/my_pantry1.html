@@ -1,0 +1,566 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div id="app">
+    <div id="searchDiv">    
+        <input class="form-control mr-sm-2" type="text" placeholder="Search Items" v-model="search_term" aria-label="Search" id="searchbar" />
+        <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="loadItems(); clearSearchbar();" id="searchbarsubmit">Search</button>
+    </div>
+    <b-container class="topBtns">
+    <b-row>
+        <b-col id="add-item-col">
+            <button id="add-item-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">+Add Item</button>
+            <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLongTitle">Add Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form v-on:submit.prevent="saveItem(); getExpiry()">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="newItemName">Item Name:</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="newItemName"
+                                        placeholder="Enter Item Name"
+                                        v-model="newItem.item_name"
+                                        required="required" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="newItemQuantity">Quantity:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="newItemQuantity"
+                                        placeholder="Enter Quantity"
+                                        v-model="newItem.quantity"
+                                        required="required" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="newItemExpirationDate">Expiration Date:</label>
+                                    <input
+                                        type="datetime-local"
+                                        class="form-control"
+                                        id="newItemExpirationDate"
+                                        placeholder="Enter Expiration"
+                                        v-model="newItem.expiration_date" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="newItemAmountType">Choose Amount Type:</label>
+                                    <select id="newItemAmountType" name="newItemAmountType" class="form-control" placeholder="Choose Amount Type" v-model="newItem.amount_type">
+                                        <option value="can">Can</option>
+                                        <option value="bag">Bag</option>
+                                        <option value="box">Box</option>
+                                        <option value="bottle">Bottle</option>
+                                        <option value="packet">Packet</option>
+                                        <option value="carton">Carton</option>
+                                        <option value="">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newItemCategory">Choose Category:</label>
+                                    <select id="newItemCategory" name="newCategory" class="form-control" placeholder="Choose Category" v-model="newItem.category" required="required">
+                                        <option value="Meat">Meat</option>
+                                        <option value="Dairy">Dairy</option>
+                                        <option value="Dry Goods">Dry Goods</option>
+                                        <option value="Canned">Canned</option>
+                                        <option value="Spices">Spices</option>
+                                        <option value="Fruits">Fruits</option>
+                                        <option value="Vegetables">Vegetables</option>
+                                        <option value="Bread">Bread</option>
+                                        <option value="Pasta">Pasta</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newItemBrand">Choose Item Brand:</label>
+                                    <input type="text" placeholder="Optional" v-model="newItem.brand" class="form-control">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>          
+            </div>
+        </b-col>
+    </b-row>
+    </b-container>
+    <div id="categories">
+        <nav id="categories-list">
+            <div id="cat-1">
+                <a href='#' class="nav-item" @click='loadItems(); backToPantryList()'>ALL</a> | 
+                <a href='#' class="nav-item" @click='showExpiringSoon()'>EXPIRING SOON</a> | 
+                <a href='#' class="nav-item" @click="sortByCategory('Meat'); backToPantryList()">MEAT</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Dairy'); backToPantryList()">DAIRY</a> |  
+                <a href=# class="nav-item" @click="sortByCategory('Canned'); backToPantryList()">CANNED</a>
+            </div>
+            <div id="cat-2">
+                <a href=# class="nav-item" @click="sortByCategory('Dry Goods'); backToPantryList()">DRY GOODS</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Spices'); backToPantryList()">SPICES</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Grains'); backToPantryList()">GRAINS</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Vegetables'); backToPantryList()">VEGETABLES</a> 
+            </div>
+            <div id="cat-3">
+                <a href=# class="nav-item" @click="sortByCategory('Fruits'); backToPantryList()">FRUITS</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Pasta'); backToPantryList()">PASTA</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Breads'); backToPantryList()">BREAD</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Snacks'); backToPantryList()">SNACKS</a> | 
+                <a href=# class="nav-item" @click="sortByCategory('Other'); backToPantryList()">OTHER</a>
+            </div>
+        </nav><br>
+        <div id="grocery-list-col" v-show="!grocery_view">
+            <b-button id="grocery-list-btn" @click="showGroceryList(); groceryListView(); ">Grocery List</b-button>
+            
+        </div>
+    </div> 
+    <div id="titles">
+        <p v-show="!grocery_view">My Pantry List</p>
+        <p v-show="grocery_view">My Grocery List</p>
+    </div>
+
+    <b-container fluid="sm" id="pantry-list-container">
+        <b-row >
+            <b-col v-for="item in pantryItems" v-if="item.owner == currentUser.id" v-bind:key="item.id" id="item-images">
+                <div class="card" v-show="!grocery_view">
+                        <img :src="'https://spoonacular.com/cdn/ingredients_250x250/' + item.slug + '.jpg'" v-show="!grocery_view" >
+                        <div id="itemnamediv">  
+                            <p v-show="!grocery_view" id="item-name"><strong>[[ item.item_name ]]</strong></p><br>
+                            <p id="brand-text" v-show="!grocery_view && item.brand != ''">Brand: [[item.brand]] </p>
+                        </div>
+                        <div id="card-category">
+                            <p id="cat-text" v-show="!grocery_view">Category: [[ item.category]] </p>
+                            <p id="amount-text" v-show="!grocery_view"> Amount:  [[ item.quantity ]] [[ item.amount_type ]] </p>
+                        </div>
+                        <div id="quantitydiv">
+                            <b-button  
+                                id="editquantitybtn" 
+                                v-bind:key="item.id" 
+                                type="button" 
+                                class="btn btn-primary" 
+                                v-show="!grocery_view" 
+                                data-toggle="modal" 
+                                data-target="#editItemModal">
+                                Update <br> Quantity
+                            </b-button>
+                            <div class="modal fade" id="editItemModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalTitle">EDIT ITEM</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form v-on:submit.prevent="updateItem(item)">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label :for="item.id">Update Quantity</label>
+                                                        <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            :id="item.id"
+                                                            placeholder="Update Quantity"
+                                                            v-model="item.quantity"
+                                                        >
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" >Save changes</button>
+                                                
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+            
+                            </div>
+                            <input 
+                                id="deleteBtn"
+                                type="image" 
+                                src="{% static 'css/media/images/delete.png' %}" 
+                                @click="deleteItem(item)" 
+                                id="deleteImg" 
+                                v-show="!grocery_view" 
+                                height= "40" 
+                                width= "40" />
+                        </div>
+                        <div id="card-expiration">
+                            <p id="expiry-text" v-show="!grocery_view"> Expires:  [[ item.expiration_date ]] </p>
+                        </div>
+                        <button @click="removeFromGrocery(item)" v-show="grocery_view"  id="remove-from-grocery">Remove</button>
+                        <div id="card-getting-low">
+                            <p id="low-text" v-show="!item.getting_low && !grocery_view"> Getting Low? </p> 
+                            <p v-show="item.getting_low && !grocery_view" id="its-low">Getting Low!</p>
+                            <input id="lowcheckbox" type="checkbox" v-show="!item.getting_low && !grocery_view" @click="gettingLow(item); updateItem(item)">
+                        </div>
+                        <div id="card-expires-soon">
+                            <p v-show="item.expiring_soon && !grocery_view" id="expires-soon-text">Expires Soon!</p>
+                        </div>
+                        <p id="testerino"><button @click="addToGroceryList(item)" id="add-grocery-btn" v-show="!grocery_view, !item.to_grocery">Add to Grocery List</button></p>
+                </div>
+                <div class="grocerycard" v-show="grocery_view">
+                    <div id="grocery-elements">
+                        <p id="grocery-text"> [[ item.item_name ]] </p>
+                        <button @click="removeFromGrocery(item)" v-show="grocery_view"  id="remove-from-grocery">Remove</button>
+                    </div>
+                </div>
+            </b-col>
+        </b-row>
+    </b-container>
+</div>
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<script type="application/javascript">
+
+let paginationComponent = Vue.component('pagination-component', {
+    name: 'paginationComponent',
+    props:['pantryItems'],
+    template:`<div class="overflow-auto"><b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      first-text="First"
+      prev-text="Prev"
+      next-text="Next"
+      last-text="Last"
+      class="mt-4"
+    ></b-pagination></div>`,
+    
+    data: function() {
+      return {
+        perPage: 10,
+        currentPage: 1,
+      }
+
+    },
+    computed: {
+        rows: function() {
+            return this.pantryItems.length
+        }
+    }
+})
+
+let mypantryapp = new Vue ({
+    el: "#app",
+    delimiters: ['[[', ']]'],
+    components: {'pagination-component': paginationComponent},
+    data: {
+        pantryItems: [],
+        name: '',
+        users: [],
+        itemName: '', 
+        createdDate: '',
+        expirationDate: '',
+        csrf_token: '',
+        itemErrors: {currentUser: false},
+        currentUser: {id: false},
+        owner: '',
+        itemImgs: [],
+        tags: [],
+        by_category: false,
+        grocery_view: false,
+        expiring_soon: false,
+        expired: false,
+        
+        newItem: {
+    "item_name": "",
+    "create_date": '',
+    "expiration_date": '',
+    "owner": {{user.id}},
+    'tags': '',
+    'category': '',
+    'amount_type': '',
+    'brand': '',
+    'quantity': '',
+        },
+        search_term: '',
+        quantity: '',
+        to_grocery: false,
+        spoon: [],
+        
+    },
+    methods: {
+        loadTags: function(tags) {
+            axios({
+                method: 'GET',
+                url: '/apis/v1/tags/'
+            }).then(response => {
+                this.tags = response.data
+                // console.log(this.tags)
+            })
+        },
+        loadItems: function(){
+            let api_url = '/apis/v1/pantry/'
+            if(this.search_term!==''||this.search_term!==null) {
+            api_url = `/apis/v1/pantry/?search=${this.search_term}`
+          }
+            axios({
+                method: 'GET',
+                url: api_url,
+            }).then(response => {
+                this.pantryItems = response.data
+                console.log(response.data)
+                
+            })
+        },
+
+        sortByCategory: function(category){
+            axios({
+                method: 'GET',
+                url: `/apis/v1/pantry/`
+            }).then(response => {
+                console.log(response.data)
+                this.pantryItems = response.data.filter(item => item.category === category)
+                })
+        },
+
+        saveItem: function(event) {
+            // event.preventDefault();
+            axios({
+                url: '/apis/v1/pantry/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': this.csrf_token
+                },
+                data: 
+                    this.newItem
+            }).then(response => {
+                console.log(response.data)
+                this.loadItems();
+                this.getExpiry();
+                console.log(this.newItem.create_date)
+                this.itemErrors = {};
+                this.newItem = {
+                    "item_name": "",
+                    "create_date": '',
+                    "expiration_date": '',
+                    'quantity': '',
+                    'tags': '',
+                    'category': '',
+                    'amount_type': '',
+                    'brand': '',
+                    'owner': {{user.id}},
+                    }
+            }).catch(error => {
+                console.log(error)
+                if (error.response.status === 400) {
+                    this.itemErrors = error.response.data
+                    console.log(this.itemErrors)
+                }
+            })
+        },
+
+        loadUsers: function() {
+            axios({
+                method: 'GET',
+                url: '/apis/v1/users/'
+            }).then(response => {
+                this.users = response.data
+                
+            })
+        },
+
+        loadCurrentUser: function() {
+            axios({
+                method: 'GET',
+                url: '/apis/v1/currentuser/'
+            }).then(response => {
+                this.currentUser = response.data
+                // console.log(this.currentUser)
+            })
+        },
+
+        getImgUrl: function(item){
+            let spoonacularApiKey = '&apiKey=5e2f2482884e496cb4ae2bbbfa18e1f0'
+            let spoonitem = []
+            for (let i = 0; i < this.pantryItems.length; i++) {
+                if (!(this.pantryItems[i].item_name in spoonitem)){
+                        spoonitem.push(this.pantryItems[i].item_name)
+                    }
+            }
+            axios({
+                method: 'GET',
+                url: `https://api.spoonacular.com/food/search?query=${spoonitem}&number=1${spoonacularApiKey}`
+            }).then(response => {
+                console.log(response.data)
+            })
+            },
+        
+        
+        deleteItem: function(item) {
+            axios({ 
+                method: 'DELETE',
+                url: `/apis/v1/pantry/${item.id}/`,
+                headers: {
+                    'X-CSRFToken': this.csrf_token
+                },
+            }).then(response => {
+                this.loadItems()
+            })
+        },
+
+        updateItem: function(item) {
+            axios({
+                method: 'PATCH',
+                url: `/apis/v1/pantry/${item.id}/`,
+                headers: {
+                    'X-CSRFToken': this.csrf_token
+                },
+                data: {
+                    quantity: item.quantity,
+                    to_grocery: item.to_grocery,
+                    getting_low: item.getting_low,
+                    expiring_soon: item.expiring_soon,
+
+                },
+            }).then(response => {
+                this.loadItems()
+            })
+        },
+        clearSearchbar: function() {
+            this.search_term = '';
+           
+        },
+        showGroceryList: function(item){
+            axios({
+                method: 'GET',
+                url: `/apis/v1/pantry/`
+            }).then(response => {
+                console.log(response.data)
+                this.pantryItems = response.data.filter(item => item.to_grocery === true)
+                })
+        },
+
+        addToGroceryList: function(item) {
+            item.to_grocery = true
+            this.updateItem(item)
+        },
+
+        backToPantryList: function() {
+            this.grocery_view = false;
+        },
+
+        groceryListView: function() {
+            this.grocery_view = true
+        },
+
+        updateGroceryItem: function(item) {
+            axios({
+                method: 'PATCH',
+                url: `/apis/v1/pantry/${item.id}/`,
+                headers: {
+                    'X-CSRFToken': this.csrf_token
+                },
+                data: {
+                    
+                    to_grocery: item.to_grocery
+
+                },
+            }).then(response => {
+                this.showGroceryList()
+            })
+        },
+        
+        removeFromGrocery: function(item) {
+            item.to_grocery = false
+            this.updateGroceryItem(item)
+            this.showGroceryList()
+            },
+
+        getCurrentDate: function() {
+            let currTime = new Date()
+            console.log(currTime)
+        },
+        getExpiry: function() {
+            // var one_day=1000*60*60*24;
+            // var currentTime = new Date()
+            for (let i = 0; i < this.pantryItems.length; i++) {
+            //     var exdate = this.pantryItems[i].expiration_date.value;
+
+            // var diff = Math.ceil((exdate.getTime() - currentTime.getTime())/one_day);
+            // if (diff <= 7) {
+            //     this.pantryItems[i].expiring_soon = true
+            //     updateItem()
+                var expiration = this.pantryItems[i].expiration_date
+                var current_date = moment().format("YYYY-MM-DD");
+                var difference = moment(expiration, ["MM-DD-YYYY", "YYYY-MM-DD-HH-mm", "DD-MM-YYYY"]).diff(current_date, 'days');
+                if (difference <= 7) {
+                    this.pantryItems[i].expiring_soon = true
+                    this.updateItem(this.pantryItems[i])
+                    }
+            }
+        },
+
+        gettingLow: function(item) {
+            item.getting_low = true
+        },
+
+        showExpiringSoon: function() {
+            axios({
+                method: 'GET',
+                url: `/apis/v1/pantry/`
+            }).then(response => {
+                console.log(response.data)
+                this.pantryItems = response.data.filter(item => item.expiring_soon === true)
+                })
+        },
+        
+        
+    },
+    
+    created: function() {
+        this.loadCurrentUser()
+        // this.getImgUrl()
+        this.loadItems()
+        this.getExpiry()
+        this.loadUsers()
+        
+        
+        
+        
+        
+    },
+    computed: {
+        categories: function() {
+            categories_list = [];
+            for (let i=0; i < this.pantryItems.length; i++) {
+                if (!(this.pantryItems[i].category in categories_list)){
+                        categories_list.push(this.pantryItems[i].category)
+                    }
+            }
+            
+            return Array.from(new Set(categories_list))
+            
+
+        },
+    },    
+
+    mounted: function(){
+        this.csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+    },
+})
+
+
+</script>
+{% endblock content %}

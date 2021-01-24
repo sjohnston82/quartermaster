@@ -1,0 +1,660 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body{
+    background-color: #FCEDDA;
+    font-family: 'Suez One', serif;
+    
+}
+
+/* ###############
+      NAVBAR
+############### */
+
+
+.head-container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    background-color: #ee4e34;
+    align-items: center;
+    height: 60px;
+}
+
+#logopic {
+    height: 80px;
+    margin-top: 20px;
+}
+
+#logo-title {
+    font-size: 40px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    margin-left: -10px;
+}
+
+.topnav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100vw;
+}
+
+#nav-bar-right {
+    display: flex;
+    background-color: #ee4e34;
+    align-items: top;
+    height: 30px;
+    justify-content: flex-end;
+    color: whitesmoke;
+    width: 100vw;
+}
+
+#auth-links {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#nav-bar-right a {
+    color: #fff0df;
+    padding: 5px;    
+}
+
+#logged-in{
+    display: flex;
+    justify-content: flex-end;
+    color: #fff0df;
+}
+
+#logged-in-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: -10px;
+    width: 100px;
+    justify-content: flex-end;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+#my-pantry-link {
+    font-size: 20px;
+    margin-top: -5px;
+    margin-left: 220px;
+}
+
+
+#logout {
+    margin-top: -23px;
+    margin-left: 30px;
+    padding-top: 5px;
+    
+}
+
+#my-pantry-link-div {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+#logged-in-as {
+    margin-left: 24px;
+}
+
+/* ###############
+    LANDING PAGE
+############### */
+
+#welcome-div{
+    text-align: center;
+}
+
+#welcome{
+    color: #ee4e34;
+}
+
+#welcome-text1{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+}
+
+#welcome-text2{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#messy-pantry{
+    width: 200px;
+    box-shadow: 0px 2px 4px 0px; 
+    margin-left: 90px;
+    
+}
+
+#messy-pantry-div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#messy-pantry-title{
+    color: #ee4e34;
+    text-align: center;
+    font-size: 26px;
+}
+
+#messy-pantry-text{
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#sign-up-div{
+    text-align: center;
+}
+
+ul#features-list{
+    margin-right: 20px;
+}
+
+ul#features-list li {
+    background: url('media/images/fork-spoon.jpg') no-repeat top left;
+    margin-right: 20px;
+    padding: 0 0 14px 65px;
+    list-style: none;
+}
+
+#features-div{
+    text-align: center;
+    margin-top: 20px;
+}
+
+#features-title{
+    color:#ee4e34;
+}
+
+#sign-up-btn {
+    background-color: #ee4e34 !important;
+    border-color: #ee4e34 !important;
+    margin-bottom: 10px;
+}
+
+/* ###############
+      PANTRY
+############### */
+
+#searchDiv {
+    display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#searchbar {
+    margin-top: 8px;
+}
+
+#searchbarsubmit{
+    background-color: #ee4e34 !important;
+    border-color: #ee4e34 !important;
+    color: white !important;
+    margin-left: 3px;
+}
+
+#add-item-btn {
+    background-color: #ee4e34 !important;
+    border-color: #ee4e34 !important;
+    margin-left: 40px;
+}
+
+#grocery-list-btn {
+    background-color: #ee4e34 !important;
+    border-color: #ee4e34 !important;
+    margin-left: -10px;
+}
+
+#topBtns{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#add-item-col {
+    justify-content: center;
+    
+}
+
+#grocery-list-col {
+    justify-content: center;
+}
+
+#categories-list {
+    align-items: center;
+    text-align: center;
+    margin-top: 5px;
+}
+
+#cat-1 a {
+    color: black
+}
+
+#cat-2 a {
+    color: black
+}
+
+#cat-3 a {
+    color: black
+}
+
+#titles {
+    text-align: center;
+}
+
+.card {
+    max-width: 188px;
+    border: 2px solid black;
+    text-align: center;
+    height: 510px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+#item-images{
+    display: flex;
+    width: 187px;
+}
+
+.card img {
+    width: 153px;
+    height: 165px;
+}
+
+#item-name {
+    font-size: 24px;
+} 
+
+#itemnamediv {
+    height: 70px;
+    margin-bottom: 5px;
+}
+
+#card-category {
+    height: 20px;
+}
+
+#editquantitybtn {
+    background-color: #ee4e34 !important;
+    border-color: #ee4e34 !important;
+    font-size: 15px;
+    /* margin-top: -10px; */
+}
+
+.card p {
+    font-size: 16px;
+}
+
+#card-getting-low {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: -70px;
+}
+
+#lowcheckbox {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#add-grocery-btn {
+    background-color: #ee4e34 !important;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#card-expiration {
+    height: 20px;
+}
+
+#card-expires-soon {
+    margin-top: 56px;
+}
+
+#expires-soon-text {
+    font-size: 18px;
+    color: red;
+}
+
+#deleteBtn {
+    margin-bottom: -15px;
+}
+
+#cat-text {
+    font-size: 12px;
+}
+
+#grocerycard{
+    background-image: url('https://secure.img1-fg.wfcdn.com/im/35877040/resize-h800%5Ecompr-r85/4350/43501673/Notebook+Paper+Wipe-Off%25AE+Chart.jpg');
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 100px;
+}
+
+#grocery-elements {
+    border: 2px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+#grocery-text {
+    font-size: 26px;
+}
+
+#remove-from-grocery {
+    background-color: #ee4e34 !important;
+    color: white;
+}
+
+@media screen and (max-width: 361px) {
+    .card {
+        max-width: 150px;
+        border: 2px solid black;
+        text-align: center;
+        height: 510px;
+        margin-bottom: 5px;
+        position: relative;
+    }
+    
+    #item-images{
+        display: flex;
+        width: 187px;
+    }
+    
+    .card img {
+        max-width: 100%;
+        height: 165px;
+    }
+
+    #grocery-list-btn {
+        background-color: #ee4e34 !important;
+        border-color: #ee4e34 !important;
+        /* margin-left: -10px; */
+        margin-top: -33px;
+    }
+}
+@media screen and (max-width: 500px) {
+    #quantitydiv {
+        margin-top: 40px;
+    }
+
+    #brand-text {
+        margin-top: 15px;
+    }
+
+    #grocery-list-col {
+        margin-left: 250px;
+        margin-top: -140px;
+        margin-bottom: 100px;
+    }
+
+    #add-item-btn {
+        margin-left: -1px;
+    }
+}
+@media screen and (min-width: 980px) {
+    #logo-title {
+        font-size: 70px;
+        margin-top: 35px;
+    }
+
+    #logopic {
+        margin-bottom: -10px;
+    }
+
+    #logged-in-as{
+        font-size: 26px;
+        margin-top: -35px;
+    }
+
+    #logout {
+        font-size: 26px;
+    }
+
+    #my-pantry-link {
+        font-size: 32px;
+        margin-top: -20px;
+        margin-right: -80px;
+    }
+
+    #logged-in-links {
+        width: 170px;
+    }
+
+    #login-link, #sing-up-link {
+        font-size: 26px;
+    }
+
+    #auth-links {
+        font-size: 26px;
+        color: #fff0df;
+        margin-top: -15px;
+        margin-right: 20px;
+    }
+
+    #welcome {
+        font-size: 60px;
+    }
+
+    #welcome-text1 {
+        font-size: 32px;
+    }
+
+    #welcome-text2 {
+        font-size: 32px;
+        padding-left: 200px;
+        padding-right: 200px;
+        margin-bottom: 20px;
+    }
+
+    #messy-pantry-title {
+        font-size: 45px;
+        margin-bottom: 50px;
+    }
+
+    #messy-pantry {
+        margin-left: 200px;
+        width: 450px;
+    }
+
+    #withsignup {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #messy-pantry-text {
+        font-size: 32px;
+        padding-right: 50px;
+    }
+
+    #m-p-sub {
+        font-size: 36px;;
+    }
+
+    #sign-up-div {
+        margin-left: 650px;
+        margin-top: -200px;
+    }
+
+    #features-title {
+        font-size: 50px;
+        margin-top: 60px;
+    }
+
+    ul#features-list{
+        margin-left: 100px;
+        
+        font-size: 34px;
+        width: 90%;
+        text-align: left;
+    }
+    
+    #searchDiv {
+        width: 20%;
+        /* justify-content: flex-end; */
+        margin-left: auto;
+        margin-top: 10px;
+    }
+
+    #add-item-btn {
+        font-size: 30px;
+        margin-top: -50px;
+        margin-left: -1700px;
+        
+
+    }
+
+    #add-item-col {
+        display: flex;
+        align-content: left;
+        
+    }
+    #grocery-list-btn {
+        font-size: 30px;
+        margin-top: -15px;
+        margin-bottom: 10px;
+        
+    }
+
+    #grocery-list-col {
+        display: flex;
+        justify-content: center;    
+    }
+
+    #cat-1 {
+        font-size: 28px;
+        
+    }
+
+    #cat-2 {
+        font-size: 28px;
+    }
+
+    #cat-3 {
+        font-size: 28px;
+    }
+
+    #categories-list {
+        margin-bottom: 10px;
+        margin-top: -50px;
+    }
+
+    #titles {
+        font-size: 44px;
+    }
+
+    #item-images {
+        min-width: 300px;
+        margin-bottom: 20px;
+    }
+
+    .card{
+        min-width: 300px;
+    }
+
+    .card img {
+        min-width: 100%;
+    }
+
+    #item-name {
+        font-size: 30px;
+    }
+
+    #brand-text {
+        font-size: 24px;
+        margin-bottom: 100px;
+        margin-top: -40px;
+    }
+
+    #cat-text {
+        font-size: 24px;
+    }
+
+    #amount-text {
+        font-size: 24px;
+        margin-top: -26px;
+    }
+
+    #editquantitybtn {
+        font-size: 20px;
+        margin-right: 5px;
+        margin-top: 40px;
+    }
+
+    #expiry-text {
+        font-size: 24px;
+        margin-top: -5px;
+    }
+
+    #low-text {
+        font-size: 24px;
+    }
+
+    #its-low {
+        font-size: 24px;
+        color: red;
+    }
+
+    #expires-soon-text {
+        font-size: 28px;
+        margin-top: -17px;
+    }
+
+    #add-grocery-btn {
+        font-size: 16px;
+        padding-left: 75px;
+        padding-right: 75px;
+    }
+
+    #deleteBtn {
+        margin-bottom: -30px;
+     }
+
+    #lowcheckbox {
+        margin-top: 12px;
+    }
+
+    #signuppage {
+        margin-left: 650px;
+        border: 2px solid black;
+        width: 500px;
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    #test {
+        text-align: center;
+    }
+
+    #loginpage {
+        margin-left: 850px;
+        border: 2px solid black;
+        width: 300px;
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    #login-text {
+        text-align: center;
+    }
+
+    
+}

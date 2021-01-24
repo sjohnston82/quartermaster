@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>{% block title %}QuarterMaster{% endblock %}</title>
+    <!-- bootstrap and bootstrap vue -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <!-- jquery  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@1,800&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'css/media/images/favicon/favicon.ico' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <link href="{% static 'css/styles1.css' %}" rel="stylesheet">
+</head>
+<header>
+    <div class="head-container">
+        <div class="topnav">
+            <a href="{% url 'home' %}" class="logo"><img src="{% static 'css/media/images/logocropped.png' %}" id="logopic"></a>
+            <div id="logo-div"></div>
+                <h1 id="logo-title">QuarterMaster</h1>
+            </div>
+        </div>
+        <div id="nav-bar-right">
+            
+            {% if user.is_authenticated %}
+            <div id="myLinks">
+                <div id="logged-in">
+                    <div id="my-pantry-link-div">
+                        <a href="{% url 'quartermaster:mypantry' %}" id="my-pantry-link">My Pantry</a>
+                    </div>  
+                    <div id="logged-in-links">
+                        <p id="logged-in-as">{{user.username}}</p>
+                        <!-- <p id="welcome-msg">Welcome, {{ user.username }}!</p> -->
+                        <p id="logout"><a href="{% url 'logout' %}">Log Out</a></p>
+                    </div>
+                </div>
+                    {% else %}
+                <div id="auth-links"> 
+                    <a href="{% url 'login' %}" id="login-link">Log In</a> |
+                    <a href="{% url 'signup' %}" id="sing-up-link">Sign Up</a>
+                </div>
+            </div>
+            {% endif %}
+        
+        </div>
+    </div>
+</header>
+<body>
+    {% csrf_token %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <!-- <footer id="footer">
+        <p>&#169; 2021</p>
+    </footer> -->
+    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.21.2/bootstrap-vue.min.js" integrity="sha512-Z0dNfC81uEXC2iTTXtE0rM18I3ATkwn1m8Lxe0onw/uPEEkCmVZd+H8GTeYGkAZv50yvoSR5N3hoy/Do2hNSkw==" crossorigin="anonymous"></script>
+    
+    
+</body>
+</html>

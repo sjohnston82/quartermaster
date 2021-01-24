@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% load static %}
+<div id="homecontainer">
+    <div id="welcome-div">
+        <h1 id="welcome">Welcome to QuarterMaster!</h1>
+        <p id="welcome-text1">QuarterMaster is an online tool to help you keep track of the food in your pantry!</p>
+        <p id="welcome-text2">Use QuarterMaster while on the go to keep informed on what you have back at home to avoid unnecessary trips to the grocery store or buying things for meals that are already tucked away in the back of your pantry. </p>
+    </div>
+    <div id="messy-pantry-div">
+        <h1 id="messy-pantry-title">Does Your Pantry Look Like This?</h1>   
+            <div id="withsignup">
+                <img id="messy-pantry" src="https://i.pinimg.com/originals/fa/a5/25/faa525634d0da89dc15ea939d1cef6fb.jpg">
+                    <div id="messy-pantry-text">
+                        <p id="m-p-sub"><strong>Then you need QuarterMaster!</strong></p> 
+                        <p> Things often get pushed to the back of pantries and forgotten about to collect dust and then expire.</p>
+                        <p>Don't let this happen to you any longer!  With QuarterMaster, track your pantry inventory and expiration dates and say goodbye to unnoticed food spoiling at the back of your pantry!</p>
+                    </div>
+            </div>
+                <div id="sign-up-div">
+                    <h2 id="sign-up-text">
+                        If QuarterMaster sounds like it could be useful to you, 
+                    </h2> 
+                    <a href="{% url 'signup' %}" class="btn btn-primary btn-lg " id="sign-up-btn">Sign Up Today!</a>
+                    <h2>And best of all... </h2>
+                    <h2>It's free!</h2>
+                </div>
+            </div>
+    </div>
+    <div id="features-div">
+        <h2 id="features-title">Features:</h2>
+        <ul id="features-list">
+            <li>Add all the food in your pantry so you're up-to-date on what you already have at home while you're out.</li>
+            <li>Keep track of food expiration dates so you know when the things that get pushed to back of the pantry are ready to be thrown out.</li>
+            <li>Add items to a grocery list to make shopping easy.
+        </ul>
+    </div>
+</div>
+{% endblock %}
